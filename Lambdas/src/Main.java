@@ -15,6 +15,14 @@ public class Main {
 
         new Thread(() -> System.out.println("Printing from the Runnable Lambda")).start();
 
+        // lambda multiple statements
+
+        new Thread(() -> {
+            System.out.println("Printing from the Runnable Lambda - Line1");
+            System.out.println("Line2");
+            System.out.println("Line3");
+        }).start();
+
     }
 
 }
