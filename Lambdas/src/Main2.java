@@ -112,12 +112,43 @@ interface UpperConcat {
 //294 Nested Blocks
 class AnotherClass {
     public String doSomething() {
-        return Main2.doStringStuff(new UpperConcat() {
-            @Override
-            public String upperAndConcat(String s1, String s2) {
-                return s1.toUpperCase() + s2.toUpperCase();
-            }
-        }, "String1", "String2");
+//        //Non Lambda
+//        System.out.println("The AnotherClass class's name is: " + getClass().getSimpleName());
+//        return Main2.doStringStuff(new UpperConcat() {
+//            @Override
+//            public String upperAndConcat(String s1, String s2) {
+//                System.out.println("The anonymous class's name is: " + getClass().getSimpleName());
+//                return s1.toUpperCase() + s2.toUpperCase();
+//            }
+//        }, "String1", "String2");
+
+        //Lambda
+        UpperConcat uc = (s1, s2) -> {
+            System.out.println("The lambda expressions class's name is: " + getClass().getSimpleName());
+            String result = s1.toUpperCase() + s2.toUpperCase();
+            return result;
+        };
+        System.out.println("The AnotherClass class's name is: " + getClass().getSimpleName());
+        return Main2.doStringStuff(uc,"String1","String2");
     }
+
+    public void printValue() {
+        int number = 25;
+
+        Runnable r  = () -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            System.out.println("The value is " + number);
+        };
+        new Thread(r).start();
+    }
+
+    // Variables inside the lambda have the same scope as if enclosed in {}.
+    // Variables used from outside the lambda expression have to be declared final of have to be effectivly final
+    // (which means that their value never changes). These variables are set when the lambda is processed by the
+    // runtime and because they have to be final the runtime can do this.
 }
 
