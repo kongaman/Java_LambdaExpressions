@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class Main3 {
 
@@ -111,6 +108,29 @@ public class Main3 {
                 System.out.println((getAName(getLastName, employee)));
             }
         }
+
+        // Chaining Functions
+        System.out.println("\n\nChaining Functions");
+        System.out.println("==================");
+        // Turn employee name to uppercase and the get the first name only
+        Function<Employee, String> upperCase = employee -> employee.getName().toUpperCase();
+        Function<String, String> firstName = name -> name.substring(0, name.indexOf(' '));
+        Function chainFunction = upperCase.andThen(firstName);
+        System.out.println(chainFunction.apply(employees.get(1)));
+        System.out.println("\n");
+
+        BiFunction<String, Employee, String> concatAge = (String name, Employee employee) -> {
+            return name.concat(" " + employee.getAge());
+        };
+
+        String upperName = upperCase.apply(employees.get(0));
+        System.out.println(concatAge.apply(upperName,employees.get(0)));
+
+        // Unary Operators incl. chaining
+        System.out.println("\n");
+        System.out.println("IntUnaryOperator");
+        IntUnaryOperator incBy5 = i -> i + 5;
+        System.out.println(incBy5.applyAsInt(10));
 
     }
 
