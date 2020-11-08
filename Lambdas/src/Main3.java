@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -82,6 +83,39 @@ public class Main3 {
             System.out.println(randomSupplier.get());
         }
 
+        employees.forEach(employee -> {
+            String lastName = employee.getName().substring(employee.getName().indexOf(' ') +1);
+            System.out.println("Last name is: " + lastName);
+        });
+        // use Function interface to do the above
+        Function<Employee, String> getLastName = (Employee employee) -> {
+            return employee.getName().substring(employee.getName().indexOf(' ') +1);
+        };
+        // Function<1stType, 2ndType>
+        // 1stType = argument Type (Employee)
+        // 2ndType = return Type (String)
+
+        String lastName = getLastName.apply((employees.get(1)));
+        System.out.println(lastName);
+
+        Function<Employee, String> getFirstName = (Employee employee) -> {
+            return employee.getName().substring(0,employee.getName().indexOf(' '));
+        };
+
+        Random rand = new Random();
+        // Print first or last name at random
+        for(Employee employee : employees){
+            if(rand.nextBoolean()){
+                System.out.println(getAName(getFirstName, employee));
+            } else {
+                System.out.println((getAName(getLastName, employee)));
+            }
+        }
+
+    }
+
+    private static String getAName(Function<Employee,String> getname, Employee employee) {
+        return getname.apply(employee);
     }
 
     private static void printEmployeesByAge (List<Employee> employees,
