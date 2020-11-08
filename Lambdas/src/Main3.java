@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Main3 {
 
@@ -61,6 +63,24 @@ public class Main3 {
         //chaining Predicates
         System.out.println(greaterThan15.and(lessThan100).test(50));
         System.out.println(greaterThan15.and(lessThan100).test(15));
+
+
+        // Suppliers
+        //===========
+        System.out.println("\n\nSuppliers Demo Start");
+        //without Lambda
+        System.out.println("Without Supplier");
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(random.nextInt(1000));
+        }
+        //using Supplier
+        System.out.println("With Supplier");
+        Random random2 = new Random();
+        Supplier<Integer> randomSupplier = () -> random2.nextInt(1000);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(randomSupplier.get());
+        }
 
     }
 
