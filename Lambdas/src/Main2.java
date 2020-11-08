@@ -41,6 +41,8 @@ public class Main2 {
         for (Employee employee : employees){
             System.out.println(employee.getName());
         }
+        // Printing with lambda-foreach-loop
+        employees.forEach(employee -> System.out.println(employee.getName()));
 
         //Non-Lambda
 //        String sillyString = doStringStuff(new UpperConcat() {
@@ -76,32 +78,6 @@ public class Main2 {
 
     public final static String doStringStuff(UpperConcat uc, String s1, String s2) {
         return uc.upperAndConcat(s1, s2);
-    }
-}
-
-class Employee {
-    private String name;
-    private int age;
-
-    public Employee(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 }
 
@@ -147,7 +123,7 @@ class AnotherClass {
     }
 
     // Variables inside the lambda have the same scope as if enclosed in {}.
-    // Variables used from outside the lambda expression have to be declared final of have to be effectivly final
+    // Variables used from outside the lambda expression have to be declared final of have to be effectively final
     // (which means that their value never changes). These variables are set when the lambda is processed by the
     // runtime and because they have to be final the runtime can do this.
 }
