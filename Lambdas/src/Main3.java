@@ -132,6 +132,30 @@ public class Main3 {
         IntUnaryOperator incBy5 = i -> i + 5;
         System.out.println(incBy5.applyAsInt(10));
 
+        // Flatmap Example
+        System.out.println("\nFlatMap");
+        System.out.println("=======");
+        Employee john1 = new Employee("John Doe", 30);
+        Employee jane1 = new Employee("Jane Deer", 25);
+        Employee jack1 = new Employee("Jack Hill", 40);
+        Employee snow1 = new Employee("Snow White", 22);
+
+        Department hr = new Department("Human Resources");
+        hr.addEmployee(jane1);
+        hr.addEmployee(jack1);
+        hr.addEmployee(snow1);
+
+        Department accounting = new Department("Accounting");
+        accounting.addEmployee(john1);
+
+        List<Department> departments = new ArrayList<>();
+        departments.add(hr);
+        departments.add(accounting);
+
+        departments.stream()
+            .flatMap(department -> department.getEmployees().stream())
+            .forEach(System.out::println);
+
     }
 
     private static String getAName(Function<Employee,String> getname, Employee employee) {
