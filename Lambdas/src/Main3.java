@@ -1,7 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main3 {
 
@@ -153,10 +153,60 @@ public class Main3 {
         departments.add(accounting);
 
         departments.stream()
-            .flatMap(department -> department.getEmployees().stream())
+            .flatMap(department -> department.getEmployees().stream()) // FlatMap wants a function that reurns a stream
             .forEach(System.out::println);
 
+        // Collecting the result of streams
+        List<String> someBingoNumbers = Arrays.asList(
+                "N40", "N36",
+                "B12", "B6",
+                "G53", "G49", "G60", "G50", "g64",
+                "I26", "I17", "I29",
+                "O71");
+
+        List<String> sortedGNumbers = someBingoNumbers.stream()
+                                                        .map(String::toUpperCase)
+                                                        .filter(s -> s.startsWith("G"))
+                                                        .sorted()
+                                                        .collect(Collectors.toList());
+        System.out.println("---- BINGO ----");
+        for (String s : sortedGNumbers){
+            System.out.println(s);
+        }
+        // to be specific about what Listtype
+        List<String> sortedGNumbers2 = someBingoNumbers.stream()
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith("G"))
+                .sorted()
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+                //       Supplier        Accumulator     Combiner
+
+        // example for department:
+        System.out.println("--- Employees grouped by age ---");
+        Map<Integer, List<Employee>> groupedByAge = departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                .collect(Collectors.groupingBy(employee -> employee.getAge()));
+
+        System.out.println("--- Youngest Employee ---");
+        departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                .reduce((e1, e2) -> e1.getAge() < e2.getAge() ? e1 : e2)
+                .ifPresent(System.out::println);
+
+        // Operations in streams are lazily evaluated
+        System.out.println("--- Lazy evaluation ---");
+        Stream.of("ABC","AC","BAA","CCCC", "XY", "ST")
+                .filter(s -> {
+                    System.out.println(s);
+                    return s.length() == 3;
+                })//;
+                // Nothing is printed out here because there is no terminal operation on the stream
+                .count();
+                // Now all operations get evaluated and string are printed
+                // would be a waste of time to evaluate everything when nothing comes out in the end
     }
+
+
 
     private static String getAName(Function<Employee,String> getname, Employee employee) {
         return getname.apply(employee);
